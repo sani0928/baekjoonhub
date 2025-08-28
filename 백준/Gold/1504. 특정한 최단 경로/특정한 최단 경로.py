@@ -1,6 +1,7 @@
 import sys
 import heapq
 
+input = sys.stdin.readline
 N, E = map(int, input().split())
 graph = [[] for _ in range(N + 1)]
 for _ in range(E):
