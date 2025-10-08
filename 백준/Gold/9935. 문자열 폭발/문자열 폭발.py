@@ -11,7 +11,7 @@ for i in range(text_len):
     s_len = len(s)
 
     if s_len >= bomb_len:
-        if s[s_len-bomb_len:s_len] == bomb_text:
+        if s[s_len-bomb_len:] == bomb_text:
             for _ in range(bomb_len):
                 s.pop()
 
