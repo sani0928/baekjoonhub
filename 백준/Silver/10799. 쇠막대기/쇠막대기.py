@@ -1,4 +1,4 @@
-bong = list(map(str, input().strip()))
+bong = input()
 
 cnt = 0
 ans = 0
