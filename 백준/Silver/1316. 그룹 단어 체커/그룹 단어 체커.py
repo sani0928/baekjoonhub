@@ -1,21 +1,19 @@
 N = int(input())
 ans = 0
 for _ in range(N):
-    string = list(map(str, input().rstrip()))
-    lst = []
+    string = input().rstrip()
+    seen = set()
+    cnt = True
     last = string[0]
-    lst.append(last)
-    i = 1
-    while i < len(string):
-        if string[i] != last:
-            if not string[i] in lst:
-                last = string[i]
-                lst.append(last)     
-            else:
+    seen.add(last)
+    for char in string:
+        if char != last:
+            if char in seen:
+                cnt = False
                 break
-            i += 1
-        else:
-            i += 1
-    if i == len(string):
+            else:
+                seen.add(char)
+                last = char
+    if cnt:
         ans += 1
 print(ans)
