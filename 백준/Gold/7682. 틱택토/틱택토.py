@@ -1,5 +1,4 @@
 def bingo():
-
     x, o = False, False
     win_situation = [
         (0,1,2), (3,4,5), (6,7,8),
@@ -15,18 +14,10 @@ def bingo():
                 o = True
     return x, o
 
-def is_hol():
+def is_correct_order():
     x_cnt = case.count('X')
     o_cnt = case.count('O')
-    if x_cnt == o_cnt + 1:
-        return True
-    else:
-        return False
-
-def is_jjak():
-    x_cnt = case.count('X')
-    o_cnt = case.count('O')
-    if x_cnt == o_cnt:
+    if x_cnt == o_cnt + 1 or x_cnt == o_cnt:
         return True
     else:
         return False
@@ -38,32 +29,29 @@ while True:
 
     total = 9 - case.count('.')
     x_win, o_win = bingo()
-
-    # 9칸 모두 채워졌는데 백이 이겼다면 유효x
-    if total == 9 and o_win:
-        print('invalid')
-        continue
-
     # 둘 다 이길 순 없음
     if x_win and o_win:
         print('invalid')
         continue
-
+    # 9칸 모두 채워졌는데 백이 이겼다면 유효x
+    if total == 9 and o_win:
+        print('invalid')
+        continue
     # 흑 혹은 백이 빙고라면 유효성 확인 (흑이 이겼으면 홀, 백이 이겼으면 짝)
     if x_win or o_win:
         if x_win:
-            if total % 2 != 0 and is_hol():
+            if total % 2 != 0 and is_correct_order():
                 print('valid')
             else:
                 print('invalid')
         else:
-            if total % 2 == 0 and is_jjak():
+            if total % 2 == 0 and is_correct_order():
                 print('valid')
             else:
                 print('invalid')
     # 둘다 빙고가 아니라면 유효성 확인 (9칸 다 채운거면 유효)
     else:
-        if total == 9 and is_hol():
+        if total == 9 and is_correct_order():
             print('valid')
         else:
             print('invalid')
