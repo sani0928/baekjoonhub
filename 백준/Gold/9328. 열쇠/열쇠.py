@@ -12,6 +12,7 @@ def check(x, y):
         return 2
     # 열쇠
     if matrix[x][y].islower():
+        # 새로운 열쇠
         if not matrix[x][y] in have_key:
             return 3
         return 1
@@ -20,32 +21,64 @@ def check(x, y):
         return 4
     return 0
 
-def entry():
-    global docu_cnt, nx
+def entrance():
 
+    flag = False
+    docu_cnt = 0
     lst = []
     for x in range(H):
         if x == 0 or x == H - 1:
-            for y in range(W):
-                if check(x, y):
-                    if check(x, y) == 3:
-                        have_key.add(matrix[x][y])
-                        nx = True
-                        return
-                    elif check(x, y) == 4:
-                        docu_cnt += 1
-                    lst.append((x, y))
+            yr = range(W)
         else:
-            for y in (0, W - 1):
-                if check(x, y):
-                    if check(x, y) == 3:
-                        have_key.add(matrix[x][y])
+            yr = (0, W - 1)
+
+        for y in yr:
+            avail = check(x, y)
+            if not avail:
+                continue
+
+            if avail == 3:
+                have_key.add(matrix[x][y])
+                flag = True
+                return lst, flag, docu_cnt
+
+            elif avail == 4:
+                docu_cnt += 1
+
+            lst.append((x, y))
+
+    return lst, flag, docu_cnt
+
+def theft():
+
+    q = deque()
+    vis = [[0] * W for _ in range(H)]
+    start, nx, docu_cnt = entrance()
+    if nx:
+        return nx, docu_cnt
+    for r, c in start:
+        q.append((r, c))
+        vis[r][c] = 1
+
+    while q:
+        cr, cc = q.popleft()
+        for k in range(4):
+            nr, nc = cr + dr[k], cc + dc[k]
+            if 0 <= nr < H and 0 <= nc < W and not vis[nr][nc]:
+                avail = check(nr, nc)
+                if avail:
+                    # 새로운 키 획득 (bfs 종료)
+                    if avail == 3:
                         nx = True
-                        return
-                    elif check(x, y) == 4:
+                        have_key.add(matrix[nr][nc])
+                        return nx, docu_cnt
+                    # 문서 획득
+                    elif avail == 4:
                         docu_cnt += 1
-                    lst.append((x, y))
-    return lst
+                    vis[nr][nc] = 1
+                    q.append((nr, nc))
+
+    return nx, docu_cnt
 
 T = int(input())
 for _ in range(T):
@@ -57,33 +90,8 @@ for _ in range(T):
         have_key = set()
 
     while True:
-        nx = False
-        docu_cnt = 0
-        q = deque()
-        vis = [[0] * W for _ in range(H)]
-        start = entry()
-        if nx:
-            continue
-        for r, c in start:
-            q.append((r, c))
-            vis[r][c] = 1
-
-        while q:
-            cr, cc = q.popleft()
-            for k in range(4):
-                nr, nc = cr + dr[k], cc + dc[k]
-                if 0 <= nr < H and 0 <= nc < W and check(nr, nc) and not vis[nr][nc]:
-                    # 새로운 키 획득 (bfs 종료)
-                    if check(nr, nc) == 3:
-                        nx = True
-                        have_key.add(matrix[nr][nc])
-                        break
-                    # 문서 획득
-                    elif check(nr, nc) == 4:
-                        docu_cnt += 1
-                    vis[nr][nc] = 1
-                    q.append((nr, nc))
+        nx, ans = theft()
         # 새로 획득한 키가 없으면 종료
         if not nx:
-            print(docu_cnt)
+            print(ans)
             break
