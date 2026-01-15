@@ -16,8 +16,6 @@ def solve():
     def bfs(start):
         nonlocal kevin_bacon
 
-        ans = None
-        total_sum = 10 ** 9
         q = deque([(start, 0, start)])
         vis, check = [[0] * (n + 1) for _ in range(n + 1)], [[0] * (n + 1) for _ in range(n + 1)]
         vis[start][start], check[start][start] = 1, 1
@@ -38,13 +36,8 @@ def solve():
                 vis[target][nx] = 1
                 q.append((nx, dist + 1, target))
 
-        for i in range(1, n + 1):
-            if total_sum <= kevin_bacon[i]:
-                continue
-            total_sum = kevin_bacon[i]
-            ans = i
-            
-        return ans
+        return min(range(1, n + 1), key=lambda i: kevin_bacon[i])
+
     print(bfs(1))
 
 if __name__ == '__main__':
