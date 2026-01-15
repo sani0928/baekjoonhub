@@ -11,11 +11,10 @@ def solve():
         p1, p2 = map(int, input().split())
         graph[p1].append(p2)
         graph[p2].append(p1)
-    kevin_bacon = [0] * (n + 1)
 
     def bfs(start):
-        nonlocal kevin_bacon
 
+        kevin_bacon = [0] * (n + 1)
         q = deque([(start, 0, start)])
         vis, check = [[0] * (n + 1) for _ in range(n + 1)], [[0] * (n + 1) for _ in range(n + 1)]
         vis[start][start], check[start][start] = 1, 1
@@ -23,7 +22,7 @@ def solve():
         while q:
             cur, dist, target = q.popleft()
 
-            if cur != target and not vis[cur][cur]:
+            if not vis[cur][cur]:
                 vis[cur][cur] = 1
                 q.append((cur, 0, cur))
 
@@ -38,7 +37,7 @@ def solve():
 
         return min(range(1, n + 1), key=lambda i: kevin_bacon[i])
 
-    print(bfs(1))
+    return bfs(1)
 
 if __name__ == '__main__':
-    solve()
+    print(solve())
