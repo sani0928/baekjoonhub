@@ -12,28 +12,26 @@ def solve():
         graph[p1].append(p2)
         graph[p2].append(p1)
 
-    def bfs(start):
+    def bfs(s):
 
         kevin_bacon = [0] * (n + 1)
-        q = deque([(start, 0, start)])
-        vis, check = [[0] * (n + 1) for _ in range(n + 1)], [[0] * (n + 1) for _ in range(n + 1)]
-        vis[start][start], check[start][start] = 1, 1
+        q = deque([(s, s, 0)])
+        vis = [[0] * (n + 1) for _ in range(n + 1)]
+        vis[s][s] = 1, 1
 
         while q:
-            cur, dist, target = q.popleft()
+            target, cur, dist = q.popleft()
 
             if not vis[cur][cur]:
                 vis[cur][cur] = 1
-                q.append((cur, 0, cur))
-
-            if not check[target][cur]:
-                kevin_bacon[target] += dist
+                q.append((cur, cur, 0))
 
             for nx in graph[cur]:
                 if vis[target][nx]:
                     continue
                 vis[target][nx] = 1
-                q.append((nx, dist + 1, target))
+                kevin_bacon[target] += dist + 1
+                q.append((target, nx, dist + 1))
 
         return min(range(1, n + 1), key=lambda i: kevin_bacon[i])
 
