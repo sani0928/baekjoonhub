@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def solve():
 
     def torf(pt, l):
@@ -20,15 +23,18 @@ def solve():
         _, *people = list(map(int, input().split()))
         parties.append(people)
     while True:
-        newt = t.copy()
+        change = False
         for party in parties:
             for p in party:
                 if t[p]:
                     for p2 in party:
+                        if t[p2]:
+                            continue
+                        change = True
                         t[p2] = 1
-        if newt == t:
+        if not change:
             break
-            
+
     for i in range(M):
         torf(parties[i], len(parties[i]))
     return ans
