@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def solve(char):
     l = len(char)
     moeum = ('a', 'e', 'i', 'o', 'u')
@@ -21,10 +24,10 @@ def solve(char):
 
 if __name__ == '__main__':
     while True:
-        pw = input()
+        pw = input().rstrip()
         if pw == 'end':
             break
-        if solve(list(map(str, pw.rstrip()))):
+        if solve(tuple(map(str, pw))):
             print(f'<{pw}> is acceptable.')
             continue
         print(f'<{pw}> is not acceptable.')
