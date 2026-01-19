@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 N, L = map(int, input().split())
 coord = []
 for _ in range(N):
@@ -10,15 +13,12 @@ for i in range(N):
     start, end = coord[i][0], coord[i][1]
     if pos > start:
         start = pos
-    rest_len = end - start
+    if start >= end:
+        continue
 
-    if rest_len % L == 0:
-        needed = rest_len // L
-        ans += needed
-        pos = start + (L * needed)
-    else:
-        needed = rest_len // L + 1
-        ans += needed
-        pos = start + (L * needed)
+    rest_len = end - start
+    needed = (rest_len + L - 1) // L
+    ans += needed
+    pos = start + (L * needed)
 
 print(ans)
