@@ -21,32 +21,32 @@ def find(a):
 def union(a, b):
     a = find(a)
     b = find(b)
+    if a == b:
+        return 0
     if a < b:
         parent[b] = a
-    else:
-        parent[a] = b
+        return 1
+    parent[a] = b
+    return 1
 
 N, M = map(int, input().split())
 node = [(-1, -1, -1)]
 candi = [(-1, -1, -1)]
 parent = list(range(N + 1))
-size = [0] * (N + 1)
 cnt = 0
 for _ in range(1, N + 1):
     x, y = map(int, input().split())
     node.append((x, y))
 for _ in range(M):
     u, v = map(int, input().split())
-    if find(u) != find(v):
-        union(u, v)
+    if union(u, v):
         cnt += 1
+        
 add_candi()
-
 ans, cur = 0, 1
 while cnt < N - 1:
     d, n1, n2 = candi[cur]
-    if find(n1) != find(n2):
-        union(n1, n2)
+    if union(n1, n2):
         ans += d
         cnt += 1
     cur += 1
