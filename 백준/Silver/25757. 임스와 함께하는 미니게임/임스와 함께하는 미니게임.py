@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 def full():
     if g == 'Y':
         return 1
