@@ -6,12 +6,13 @@ def solve():
     def back(cr, cc, cnt, total):
         nonlocal ans
         
-        if (4 - cnt) * mx_val + total <= ans:
-            return
-
         vis[cr][cc] = 1
         cnt += 1
         total += board[cr][cc]
+        
+        if (4 - cnt) * mx_val + total <= ans:
+            vis[cr][cc] = 0
+            return
 
         if cnt == 4:
             ans = max(ans, total)
