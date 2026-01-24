@@ -5,6 +5,9 @@ def solve():
 
     def back(cr, cc, cnt, total):
         nonlocal ans
+        
+        if (4 - cnt) * mx_val + total <= ans:
+            return
 
         vis[cr][cc] = 1
         cnt += 1
@@ -50,12 +53,13 @@ def solve():
     n, m = map(int, input().split())
     board = [list(map(int, input().split())) for _ in range(n)]
     vis = [[0] * m for _ in range(n)]
+    mx_val = max(map(max, board))
     ans = -10 ** 9
     for i in range(n):
         for j in range(m):
             back(i, j, 0, 0)
             check(i, j)
-    print(ans)
+    return ans
 
 if __name__ == '__main__':
-    solve()
+    print(solve())
