@@ -16,18 +16,12 @@ def maketree(root):
             s.append(nx)
     return t
 
-def cal_cnt(cur, cnt):
-
-    if not tree[cur]:
-        sub_tree_cnt[cur] = 1
-        return sub_tree_cnt[cur]
-
+def cal_cnt(cur):
+    cnt = 1
     for nx in tree[cur]:
-        cnt += cal_cnt(nx, 1)
-
-    sub_tree_cnt[cur] = cnt
-    return sub_tree_cnt[cur]
-
+        cnt += cal_cnt(nx)
+    sub[cur] = cnt
+    return sub[cur]
 
 n, r, q = map(int, input().split())
 graph = [[] for _ in range(n + 1)]
@@ -36,7 +30,7 @@ for _ in range(n - 1):
     graph[u].append(v)
     graph[v].append(u)
 tree = maketree(r)
-sub_tree_cnt = [0] * (n + 1)
-cal_cnt(r, 1)
+sub = [0] * (n + 1)
+cal_cnt(r)
 for _ in range(q):
-    print(sub_tree_cnt[int(input())])
+    print(sub[int(input())])
