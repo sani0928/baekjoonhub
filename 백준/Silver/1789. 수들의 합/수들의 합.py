@@ -1,11 +1,11 @@
 def solve():
     s = int(input())
-    r, ans = 1, 1
-    while True:
+    num, ans, r = 0, 0, 1
+    while num + r <= s:
+        num += r
         r += 1
-        if s < (r * (r + 1)) // 2:
-            return ans
         ans += 1
+    return ans
 
 if __name__ == '__main__':
     print(solve())
