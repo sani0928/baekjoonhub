@@ -1,11 +1,9 @@
 def solve():
     s = int(input())
-    if s == 1 or s == 2:
-        return 1
-    r, ans = 0, 2
+    r, ans = 1, 1
     while True:
-        r += ans
-        if s <= r + (ans + 1):
+        r += 1
+        if s < (r * (r + 1)) // 2:
             return ans
         ans += 1
 
