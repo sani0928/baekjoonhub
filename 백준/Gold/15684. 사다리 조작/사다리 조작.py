@@ -2,20 +2,18 @@ import sys
 input = sys.stdin.readline
 
 def recur(cnt, mx):
-    global ans
+    global end, ans
 
-    if ans <= mx:
+    if end:
         return
 
     if cnt == mx:
         if simul():
+            end = True
             ans = mx
         return
 
     for c in range(1, N):
-        # 독립적인 세로선은 제외
-        if c in alone:
-            continue
         for r in range(1, H + 1):
             if ladder[c][r] or ladder[c + 1][r]:
                 continue
@@ -25,19 +23,15 @@ def recur(cnt, mx):
 
 def simul():
     for s in range(1, N + 1):
+        # print(f'시작은 {s}번')
         cur, r = s, 1
         while r <= H:
             if ladder[cur][r]:
                 cur = ladder[cur][r]
             r += 1
-        # 시작과 끝이 다르면 실패
+        # print(f'끝은 {cur}번')
+        # print()
         if cur != s:
-            return 0
-    return 1
-
-def check_alone(l):
-    for j in ladder[l]:
-        if j != 0:
             return 0
     return 1
 
@@ -47,16 +41,10 @@ for _ in range(M):
     a, b = map(int, input().split())
     ladder[b][a], ladder[b + 1][a] = b + 1, b
 
-alone = set()
-for i in range(1, N + 1):
-    if check_alone(i):
-        alone.add(i)
-
-ans = 4
+end, ans = False, -1
+# print('원본', ladder)
 for t in range(0, 4):
+    if end:
+        break
     recur(0, t)
-
-if ans < 4:
-  print(ans)
-else:
-  print(-1)
+print(ans)
