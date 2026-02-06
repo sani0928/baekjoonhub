@@ -9,9 +9,9 @@ let mx = Math.max(...states);
 while (mn <= mx) {
     const mid = Math.floor((mn + mx) / 2);
     let total = 0;
-    states.forEach(state => {
-        total += Math.min(state, mid)
-    });
+    for (const state of states) {
+        total += Math.min(state, mid);
+    }
 
     if (total <= M) {
         mn = mid + 1
