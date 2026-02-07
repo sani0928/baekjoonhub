@@ -1,29 +1,24 @@
 N = int(input())
 M = int(input())
-S = tuple(map(str, input().strip()))
-
+S = list(input().strip())
+pl = 2 * N + 1
 ans = 0
-
-sample = []
-for i in range(N*2+1):
-    if i % 2 == 0:
-        sample.append('I')
-    else:
-        sample.append('O')
-
-for j in range(len(S)):
-    if S[j] == 'I':
-        idx = 0
-        result = True
-        while idx < N*2+1:
-            if j >= len(S) or S[j] != sample[idx]:
-                result = False
-                break
-
-            idx += 1
-            j += 1
-
-        if result:
-            ans += 1
+cnt = 0
+cur = 'O'
+for i in range(M):
+    if cur == 'I':
+        if S[i] == 'O':
+            cnt += 1
+        else:
+            cnt = 1
+    else: # cur == 'O'
+        if S[i] == 'I':
+            cnt += 1
+        else:
+            cnt = 0
+    if cnt == pl:
+        ans += 1
+        cnt -= 2
+    cur = S[i]
 
 print(ans)
