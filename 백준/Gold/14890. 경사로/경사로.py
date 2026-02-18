@@ -7,17 +7,21 @@ def solve():
                 continue
             if abs(diff) > 1:
                 return 0
-            if diff == 1: # matrix[i - 1] > matrix[i]
+            if diff == 1: # matrix[i-1] > matrix[i]
+                if i + l > n:
+                    return 0
                 cur = matrix[i]
                 for j in range(i, i + l):
-                    if j >= n or cur != matrix[j] or used[j]:
+                    if cur != matrix[j] or used[j]:
                         return 0
                 for j in range(i, i + l):
                     used[j] = 1
-            else: # matrix[i - 1] < matrix[i]
+            else: # matrix[i-1] < matrix[i]
+                if i - l < 0:
+                    return 0
                 cur = matrix[i - 1]
                 for j in range(i - l, i):
-                    if j < 0 or cur != matrix[j] or used[j]:
+                    if cur != matrix[j] or used[j]:
                         return 0
                 for j in range(i - l, i):
                     used[j] = 1
