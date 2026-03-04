@@ -1,4 +1,4 @@
-import sys; from collections import deque
+import sys
 input = sys.stdin.readline
 ans = 0
 n, m = int(input()), int(input())
@@ -7,16 +7,16 @@ for _ in range(m):
     a, b = map(int, input().split())
     g[a].append(b)
     g[b].append(a)
-q = deque([(1, 0)])
-v = [0] * (n + 1)
-v[1] = 1
-while q:
-    cur, dist = q.popleft()
-    if dist == 2:
+s = [1]
+d = [0] * (n + 1)
+d[1] = 1
+while s:
+    cur = s.pop()
+    if d[cur] == 3:
         continue
     for nx in g[cur]:
-        if not v[nx]:
-            v[nx] = 1
+        if not d[nx]:
+            d[nx] = d[cur] + 1
             ans += 1
-            q.append((nx, dist + 1))
+            s.append(nx)
 print(ans)
