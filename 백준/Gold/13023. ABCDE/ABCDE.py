@@ -9,11 +9,11 @@ def solve():
         if dist == 4:
             end = True
             return
+        v[cur] = 1
         for nx in graph[cur]:
             if not v[nx]:
-                v[nx] = 1
                 recur(nx, dist + 1)
-                v[nx] = 0
+        v[cur] = 0
 
     n, m = map(int, input().split())
     graph = [[] for _ in range(n)]
@@ -26,9 +26,7 @@ def solve():
     for i in range(n):
         if end:
             return 1
-        v[i] = 1
         recur(i, 0)
-        v[i] = 0
     return 0
 
 if __name__ == '__main__':
