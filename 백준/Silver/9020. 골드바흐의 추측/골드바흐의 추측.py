@@ -2,21 +2,24 @@ import sys
 input = sys.stdin.readline
 
 def check(num):
-    for i in range(2, num):
-        if num % i == 0:
+    for x in range(2, num):
+        if num % x == 0:
             return 0
     return 1
 
 t = int(input())
-for _ in range(t):
-    n = int(input())
-    if check(n // 2):
-        print(n//2, n//2)
-        continue
+nums = [int(input()) for _ in range(t)]
+prime = [0] * (max(nums) + 1)
+prime[0] = prime[1] = 1
+for i in range(2, max(nums) + 1):
+    if check(i):
+        prime[i] = 1
+for n in nums:
     mid = n // 2
+    if prime[mid]:
+        print(mid, mid)
+        continue
     diff = 1
-    while True:
-        if check(mid - diff) and check(mid + diff):
-            break
+    while not (prime[mid - diff] and prime[mid + diff]):
         diff += 1
     print(mid - diff, mid + diff)
