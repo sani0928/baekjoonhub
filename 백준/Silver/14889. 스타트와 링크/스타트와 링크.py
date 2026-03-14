@@ -1,21 +1,16 @@
 def recur(idx, cnt):
     global ans
 
-    if cnt > 0 and team[0] == 0:
-        return
-
     if cnt == n // 2:
         team1, team2 = 0, 0
         for i in range(n):
             for j in range(i + 1, n):
                 if team[i] != team[j]:
                     continue
-                if team[i] and team[j]:
-                    team1 += board[i][j]
-                    team1 += board[j][i]
+                if team[i]:
+                    team1 += scores[i][j]
                 else:
-                    team2 += board[i][j]
-                    team2 += board[j][i]
+                    team2 += scores[i][j]
         ans = min(ans, abs(team1 - team2))
         return
 
@@ -27,6 +22,8 @@ def recur(idx, cnt):
 ans = 10 ** 9
 n = int(input())
 board = [list(map(int, input().split())) for _ in range(n)]
+scores = [[board[i][j] + board[j][i] for j in range(n)] for i in range(n)]
 team = [0] * n
-recur(0, 0)
+team[0] = 1
+recur(1, 1)
 print(ans)
