@@ -2,16 +2,20 @@ def recur(idx, cnt):
     global ans
 
     if cnt == n // 2:
-        team1, team2 = 0, 0
+        team1, team2 = [], []
         for i in range(n):
-            for j in range(i + 1, n):
-                if team[i] != team[j]:
-                    continue
-                if team[i]:
-                    team1 += scores[i][j]
-                else:
-                    team2 += scores[i][j]
-        ans = min(ans, abs(team1 - team2))
+            if team[i]:
+                team1.append(i)
+            else:
+                team2.append(i)
+        t1, t2 = 0, 0
+        for i in range(n // 2):
+            for j in range(i + 1, n // 2):
+                t1 += scores[team1[i]][team1[j]]
+        for i in range(n // 2):
+            for j in range(i + 1, n // 2):
+                t2 += scores[team2[i]][team2[j]]
+        ans = min(ans, abs(t1 - t2))
         return
 
     for i in range(idx, n):
