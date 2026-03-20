@@ -27,11 +27,12 @@ def solve():
                 d = (d + 1) % 4
                 continue
             if board[nx][ny] == -1:
+                board[x][y] = 0
                 return
-            if board[x][y] != -1:
-                board[x][y], board[nx][ny] = board[nx][ny], board[x][y]
-            else:
+            if board[x][y] == -1:
                 board[nx][ny] = 0
+            else:
+                board[x][y] = board[nx][ny]
             x, y = nx, ny
 
     def down_blow(sx, sy):
@@ -43,11 +44,12 @@ def solve():
                 d = (d - 1) % 4
                 continue
             if board[nx][ny] == -1:
+                board[x][y] = 0
                 return
-            if board[x][y] != -1:
-                board[x][y], board[nx][ny] = board[nx][ny], board[x][y]
-            else:
+            if board[x][y] == -1:
                 board[nx][ny] = 0
+            else:
+                board[x][y] = board[nx][ny]
             x, y = nx, ny
 
     dr, dc = (-1, 0, 1, 0), (0, 1, 0, -1)
