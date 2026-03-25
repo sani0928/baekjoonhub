@@ -11,8 +11,8 @@ for i in range(1, n):
     if l > e:
         ans += e - s
         s, e = l, r
-    else:
-        if r > e:
-            e = r
+        continue
+    if r > e:
+        e = r
 ans += e - s
 print(ans)
