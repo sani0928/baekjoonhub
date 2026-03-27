@@ -12,10 +12,10 @@ while cnt < k:
     if pos[n-1]:
         pos[n-1] = 0
     # 2-1) 순서대로 벨트 위 로봇 이동
-    for i in range(LEN - 1, -1, -1):
+    for i in range(n - 2, -1, -1):
         if not pos[i]:
             continue
-        nx = i + 1 if i + 1 < LEN else 0
+        nx = i + 1
         if not pos[nx] and belt[nx] >= 1:
                 pos[i] = 0
                 pos[nx] = 1
