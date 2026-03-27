@@ -1,14 +1,11 @@
-from collections import deque
-
 n, k = map(int, input().split())
-arr = list(map(int, input().split()))
-belt = deque([i, 0] for i in arr)
+belt = [[i, 0] for i in list(map(int, input().split()))]
 LEN = n * 2
 cnt = 0
 turn = 0
 while cnt < k:
     # 1-1) 벨트 이동
-    belt.appendleft(belt.pop())
+    belt.insert(0, belt.pop())
     # 1-2) 내리는 위치에 로봇 있으면 내림
     if belt[n-1][1]:
         belt[n-1][1] = 0
