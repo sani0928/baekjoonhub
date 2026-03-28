@@ -7,7 +7,7 @@ left = [
     (-2, 0, 0.02), (2, 0, 0.02),
     (-1, -1, 0.1), (1, -1, 0.1),
     (-1, 1, 0.01), (1, 1, 0.01),
-    (0, -2, 0.05), (0, -1, 0.55)
+    (0, -2, 0.05)
 ]
 down = [(-y, x, radio) for x, y, radio in left]
 right = [(x, -y, radio) for x, y, radio in left]
@@ -37,12 +37,12 @@ def tornado():
 def splash(r, c, d):
     if not board[r][c]:
         return 0
-    total = board[r][c]
+    rest = board[r][c]
     out = 0
     for x, y, radio in move[d]:
-        sand = int(board[r][c] * radio) if radio != 0.55 else total
+        sand = int(board[r][c] * radio)
         nr, nc = r + x, c + y
-        total -= sand
+        rest -= sand
         if 0 > nr or n <= nr or 0 > nc or n <= nc:
             out += sand
             continue
@@ -50,6 +50,11 @@ def splash(r, c, d):
         board[nr][nc] += sand
     # 모래를 다 흩날린 후 해당 위치 모래 비우기
     board[r][c] = 0
-    return out
+    # 남은 모래 알파 자리에 추가 (알파 자리가 범위 밖이면 out + rest)
+    ax, ay = r + dr[d], c + dc[d]
+    if 0 <= ax < n and 0 <= ay < n:
+        board[ax][ay] += rest
+        return out
+    return out + rest
 
 print(tornado())
