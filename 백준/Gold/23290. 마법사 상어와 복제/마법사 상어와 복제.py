@@ -12,13 +12,12 @@ sr -= 1
 sc -= 1
 
 def saving():
-    temp = []
+    temp = [[[] for _ in range(N)] for _ in range(N)]
     for x in range(N):
         for y in range(N):
             if not fishes[x][y]:
                 continue
-            for d in fishes[x][y]:
-                temp.append((x, y, d))
+            temp[x][y] = fishes[x][y][:]
     return temp
 
 def fish_move():
@@ -43,34 +42,38 @@ def fish_move():
     return new_fishes
 
 def shark_move():
-    candi = []
-    s = [([], set(), 0, sr, sc)]
-    while s:
-        path, vis, cnt, cx, cy = s.pop()
+    def recur(cnt, path, cx, cy):
+        nonlocal best
         if len(path) == 3:
-            candi.append((path, vis, cnt, cx, cy))
-            continue
+            if best == (-1, -1, -1, -1) or (-cnt, path) < (-best[0], best[1]):
+                best = (cnt, path, cx, cy)
+            return
         for k in range(4):
             nx, ny = cx + dv2[0][k], cy + dv2[1][k]
             if 0 > nx or 0 > ny or N <= nx or N <= ny:
                 continue
-            new_vis = vis.copy()
-            new_cnt = cnt
-            if (nx, ny) not in vis:
-                new_cnt += len(fishes[nx][ny])
-                new_vis.add((nx, ny))
-            s.append((path + [k], new_vis, new_cnt, nx, ny))
+            get = 0
+            first = False
+            if not vis[nx][ny]:
+                vis[nx][ny] = 1
+                get += len(fishes[nx][ny])
+                first = True
+            recur(cnt + get, path + [k], nx, ny)
+            if first:
+                vis[nx][ny] = 0
 
-    candi.sort(key=lambda a: (-a[2], a[0]))
-    best = candi[0]
-    for x, y in best[1]:
-        if not fishes[x][y]:
-            continue
-        fishes[x][y] = []
-        smells[x][y] = 3
-    return best[3], best[4]
+    best = (-1, -1, -1, -1)
+    vis = [[0] * N for _ in range(N)]
+    recur(0, [], sr, sc)
+    x, y = sr, sc
+    for d in best[1]:
+        x, y = x + dv2[0][d], y + dv2[1][d]
+        if fishes[x][y]:
+            fishes[x][y] = []
+            smells[x][y] = 3
+    return best[2], best[3]
 
-def disappear_smells():
+def decrease_smells():
     for x in range(N):
         for y in range(N):
             if not smells[x][y]:
@@ -79,15 +82,19 @@ def disappear_smells():
     return
 
 def magic():
-    for x, y, d in save:
-        fishes[x][y].append(d)
+    for x in range(N):
+        for y in range(N):
+            if not save[x][y]:
+                continue
+            for d in save[x][y]:
+                fishes[x][y].append(d)
     return
 
 for t in range(S):
     save = saving() # 1
     fishes = fish_move() # 2
     sr, sc = shark_move() # 3
-    disappear_smells() # 4
+    decrease_smells() # 4
     magic() # 5
 
 print(sum(len(fishes[x][y]) for x in range(N) for y in range(N)))
