@@ -12,13 +12,13 @@ sr -= 1
 sc -= 1
 
 def saving():
-    temp = [[[] for _ in range(N)] for _ in range(N)]
+    temp = []
     for x in range(N):
         for y in range(N):
             if not fishes[x][y]:
                 continue
             for d in fishes[x][y]:
-                temp[x][y].append(d)
+                temp.append((x, y, d))
     return temp
 
 def fish_move():
@@ -36,16 +36,13 @@ def fish_move():
                     d = (d - 1) % 8
                     nx, ny = x + dv[0][d], y + dv[1][d]
                     trying += 1
-                # print(x, y, nx, ny, d, trying)
                 if trying < 8:
                     new_fishes[nx][ny].append(d)
                 else:
                     new_fishes[x][y].append(d)
-    # print(new_fishes)
     return new_fishes
 
 def shark_move():
-
     candi = []
     s = [([], set(), 0, sr, sc)]
     while s:
@@ -82,12 +79,8 @@ def disappear_smells():
     return
 
 def magic():
-    for x in range(N):
-        for y in range(N):
-            if not save[x][y]:
-                continue
-            for d in save[x][y]:
-                fishes[x][y].append(d)
+    for x, y, d in save:
+        fishes[x][y].append(d)
     return
 
 for t in range(S):
