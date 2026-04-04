@@ -12,7 +12,7 @@ vis = [[0] * m for _ in range(n)]
 vis[x1][y1] = 1
 
 ans, end = 0, 0
-while not end:
+while True:
     nx = []
     while s:
         cr, cc = s.pop()
@@ -28,7 +28,9 @@ while not end:
                 nx.append((nr, nc))
                 continue
             s.append((nr, nc))
-    s = nx
     ans += 1
+    if end:
+        break
+    s = nx
 
 print(ans)
