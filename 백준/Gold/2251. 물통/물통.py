@@ -11,15 +11,9 @@ def back(cur):
             if i == j or cur[i] == 0 or cur[j] == mx[j]:
                 continue
             nx = cur.copy()
-            total = nx[j] + nx[i]
-            # 물을 모두 줘도 남거나 딱 꽉 찰 경우
-            if total <= mx[j]:
-                nx[i] = 0
-                nx[j] = total
-            # 물을 모두 주면 넘치는 경우
-            else:
-                nx[i] = nx[i] - (mx[j] - nx[j])
-                nx[j] = mx[j]
+            mn = min(nx[i], mx[j] - nx[j])
+            nx[i] -= mn
+            nx[j] += mn
             back(nx)
 
 seen = set()
