@@ -1,18 +1,29 @@
-import sys
+import sys, heapq
 input = sys.stdin.readline
 
 INF = 10**9
 ans = 10**9
-n, m = map(int, input().split())
-dist = [[INF] * (n + 1) for _ in range(n + 1)]
-for _ in range(m):
+v, e = map(int, input().split())
+graph = [[] for _ in range(v + 1)]
+for _ in range(e):
     a, b, w = map(int, input().split())
-    dist[a][b] = w
-for x in range(1, n + 1):
-    for s in range(1, n + 1):
-        for e in range(1, n + 1):
-            if dist[s][x] == INF or dist[x][e] == INF: continue
-            dist[s][e] = min(dist[s][e], dist[s][x] + dist[x][e])
-for i in range(1, n + 1):
-    ans = min(ans, dist[i][i])
+    graph[a].append((w, b))
+
+for s in range(1, v + 1):
+    dist = [INF] * (v + 1)
+    dist[s] = 0
+    hq = []
+    heapq.heappush(hq, (0, s))
+    while hq:
+        curd, cur = heapq.heappop(hq)
+        if curd >= ans or curd > dist[cur]: continue
+        for cost, nx in graph[cur]:
+            nxd = curd + cost
+            if nxd >= ans: continue
+            if nx == s:
+                ans = min(ans, nxd)
+                continue
+            if nxd >= dist[nx]: continue
+            dist[nx] = nxd
+            heapq.heappush(hq, (nxd, nx))
 print(ans if ans != 10**9 else -1)
