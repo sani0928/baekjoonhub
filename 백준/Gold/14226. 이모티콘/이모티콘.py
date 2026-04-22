@@ -21,6 +21,6 @@ while q:
         q.append((nx, save))
     # 삭제
     nx = cur - 1
-    if vis[nx][save] == -1:
+    if nx >= 0 and vis[nx][save] == -1:
         vis[nx][save] = time + 1
         q.append((nx, save))
