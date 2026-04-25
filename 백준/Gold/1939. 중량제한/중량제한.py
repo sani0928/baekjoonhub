@@ -15,6 +15,8 @@ heappush(hq, (-(10**9+1), s))
 while hq:
     cur_mxw, cur_x = heappop(hq)
     cur_mxw = -cur_mxw
+    if cur_mxw < dist[cur_x]:
+        continue
     if cur_x == e:
         print(dist[e])
         break
