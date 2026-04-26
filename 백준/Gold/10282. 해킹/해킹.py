@@ -1,9 +1,9 @@
-from heapq import heappush, heappop; import sys
+from heapq import *; import sys
 input = sys.stdin.readline
 
 INF = 10**9
-t = int(input())
-for _ in range(t):
+
+def solve():
     total = 1
     n, d, c = map(int, input().split())
     dist = [INF] * (n + 1)
@@ -23,4 +23,9 @@ for _ in range(t):
                 continue
             dist[nx] = time + t
             heappush(hq, (time + t, nx))
-    print(total, max(dist[i] for i in range(1, n + 1) if dist[i] != INF))
+    return total, max(dist[i] for i in range(1, n + 1) if dist[i] != INF)
+
+if __name__ == '__main__':
+    tc = int(input())
+    for _ in range(tc):
+        print(*solve())
